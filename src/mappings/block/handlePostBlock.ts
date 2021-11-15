@@ -26,10 +26,8 @@ const handlePostBlock = async ({
         lastProcessedBlock: paraChainBlockHeight,
     })];
 
-    const pools = await store.getMany<LBPPool>(LBPPool, {
-        where: { saleEndAtRelayChainBlockHeight: MoreThanOrEqual(3) },
-    });
-      
+    const options = { saleEndAtRelayChainBlockHeight: MoreThanOrEqual(relayChainBlockHeight)}
+    const pools = await store.getMany<LBPPool>(LBPPool, options as any);
     databaseQueries = pools.map((pool: LBPPool) => {
         return [
             createHistoricalBalance(
